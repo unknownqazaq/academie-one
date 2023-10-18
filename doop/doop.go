@@ -75,17 +75,22 @@ func main() {
 }
 
 func Atoi(s string) int {
-	ans := 0
+	sum := 0
+	sign := 1
 	for _, char := range s {
-		if char < '0' || char > '9' {
-			return ans
+		if char == '-' {
+			sign = -1
+		} else if char >= '0' && char <= '9' {
+			digit := int(char - '0')
+			if sum > (1<<63-1-digit)/10 {
+				return 0
+			}
+			sum = sum*10 + digit
 		} else {
-			ans *= 10
-			ans += int(char) - '0'
+			return 0
 		}
-
 	}
-	return ans
+	return sum * sign
 }
 
 func Itoa(d int) string {
